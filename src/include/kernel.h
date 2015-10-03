@@ -34,7 +34,7 @@
 #ifdef DEBUG
 #define KASSERT(expr, msg)                                                     \
     do {                                                                       \
-        if (!expr)                                                             \
+        if (!(expr))                                                           \
             PANIC("Assertion failed (" msg "): " #expr);                       \
     } while (0)
 #else
