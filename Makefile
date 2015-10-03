@@ -8,6 +8,10 @@ CC ?= clang
 ASM ?= nasm
 LD ?= ld
 
+# This is replaced with the corresponding
+# qemu
+QEMU ?= qemu
+
 CFLAGS := -std=c99 -Wall -pedantic -O0 -ffreestanding -fno-builtin -DDEBUG
 LDFLAGS := -nostdlib
 
@@ -42,6 +46,16 @@ kernel:
 autoformat:
 	for i in `find src -name '*.c'`; do echo "$$i"; clang-format-3.6 "$$i" > "$$i.formatted"; mv "$$i.formatted" "$$i"; done
 	for i in `find src -name '*.h'`; do echo "$$i"; clang-format-3.6 "$$i" > "$$i.formatted"; mv "$$i.formatted" "$$i"; done
+
+
+.PHONY: run-i386
+run-i386: QEMU := qemu-system-i386
+run-i386: i386
+run-i386: run
+
+.PHONY: run
+run:
+	$(QEMU) -kernel bin/kernel
 
 .PHONY: clean
 clean:
