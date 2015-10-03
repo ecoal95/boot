@@ -19,27 +19,25 @@ void vga_putc(uint16_t x, uint16_t y, char ch, vga_color_t foreground,
 
     KASSERT(x < VGA_ROWS && y < VGA_COLS,
             "Invalid coordinates passed to vga_putc");
-    VGA_VIDEO[x + y * VGA_COLS] = vga_encoded;
+    VGA_VIDEO[x * VGA_COLS + y] = vga_encoded;
 }
 
-void vga_puts_r(const char* str, uint16_t initial_col, uint16_t initial_row,
+void vga_puts_r(const char* str, uint16_t initial_row, uint16_t initial_col,
                 vga_color_t foreground, vga_color_t background,
-                uint16_t* last_col, uint16_t* last_row) {
+                uint16_t* last_row, uint16_t* last_col) {
     size_t len = strlen(str);
     size_t i = 0;
     for (; i < len; ++i)
-        vga_putc((initial_col + i) % VGA_COLS,
-                 initial_row + (initial_col + i) / VGA_COLS,
-                 str[i],
-                 foreground, background);
+        vga_putc(initial_row + (initial_col + i) / VGA_COLS,
+                 initial_col + i % VGA_COLS, str[i], foreground, background);
 
-    if (last_col)
-        *last_col = (initial_col + i - 1) % VGA_COLS;
     if (last_row)
         *last_row = initial_row + (initial_col + i - 1) / VGA_COLS;
+    if (last_col)
+        *last_col = (initial_col + i - 1) % VGA_COLS;
 }
 
 void vga_puts(const char* str, uint16_t initial_row, vga_color_t foreground,
               vga_color_t background) {
-    vga_puts_r(str, 0, initial_row, foreground, background, NULL, NULL);
+    vga_puts_r(str, initial_row, 0, foreground, background, NULL, NULL);
 }

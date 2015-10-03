@@ -23,9 +23,9 @@ extern const uint16_t VGA_COLS;
 void vga_clear(vga_color_t color);
 void vga_putc(uint16_t x, uint16_t y, char ch, vga_color_t foreground,
               vga_color_t background);
-void vga_puts_r(const char* str, uint16_t initial_col, uint16_t initial_row,
+void vga_puts_r(const char* str, uint16_t initial_row, uint16_t initial_col,
                 vga_color_t foreground, vga_color_t background,
-                uint16_t* last_col, uint16_t* last_row);
+                uint16_t* last_row, uint16_t* last_col);
 void vga_puts(const char* str, uint16_t initial_row, vga_color_t foreground,
               vga_color_t background);
 
