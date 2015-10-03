@@ -8,7 +8,7 @@ CC ?= clang
 ASM ?= nasm
 LD ?= ld
 
-CFLAGS := -std=c99 -Wall -pedantic -O0 -ffreestanding -fno-builtin
+CFLAGS := -std=c99 -Wall -pedantic -O0 -ffreestanding -fno-builtin -DDEBUG
 LDFLAGS := -nostdlib
 
 export CC
